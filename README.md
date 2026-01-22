@@ -14,8 +14,17 @@ Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näheru
   * RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
   * AT = Außentemperatur
 - aktuelles Datenpaket der Regelung
+Über Pinch-Zoom bzw. Scrollrad kann die Zeitachse des Diagramms gezoomt werden.
 
 ![Lengende zum Web-Interface](/images/WebIF_Legende.png)
+
+### Schnellstart / Verwendung
+1. Die Dateien "TrimatikLogger.ino", "html.h", "logger.h", "wifikey-vorlage.h" und "example.h" in das Verzeichnis "TrimatikLogger" herunterladen
+2. Die Zugangsdaten zum WLAN müssen bereitgestellt werden: dazu in der Vorlage "wifikey-vorlage.h" die Zugangsdaten eintragen und als "wifikey.h" speichern. "wifikey.h" wird nicht durch git synchronisiert (.gitignore).
+3. Konnte sich der Logger am WLAN anmelden, ist das Web-Interface über "http://trimatik" erreichbar
+4. Für den echten Betrieb:
+   - Hardwareanbindung an die Trimatik herstellen (siehe [Hardware](#hardware))
+   - in "TrimatikLogger.ino" die Zeile "#define BEISPIEL" auskommentieren um die Beispieldaten zu entfernen
 
 ## Trimatik-Kompatibilität
 Entworfen ist das Projekt für die Viessmann Trimatik-MC von 1/1995, die noch keine der im OpenV-Wiki beschriebenen Datenanbindungen hat. Sie besteht aus:
@@ -94,7 +103,7 @@ Ich habe den 5V-Abgriff direkt an den Lötungen des Steckverbinders zur Regelbox
 Der Gaszähler "Honeywell BK-G4MT" hat an der letzten Stelle des Zählwerks einen Magneten, mit dem die Hundertstel m³ gezählt werden können. In der Mulde unterhalb des Zählwerks kann ein entsprechender Reed-Kontakt befestigt werden. Vorgesehen sind z.B. Typ IN-Z61 oder IN-Z62. Ich habe einen Standard-Reed-Kontakt (Littlefuse 59140) bearbeitet und in die Mulde geklemmt. Der Reedkontakt ist bei Zählerständen x,xx1 m³ bis x,xx9 m³ geöffnet.
 
 ## Hardware
-Entworfen ist der Trimatik-Logger für den "Wemos S2 mini" mit dem ESP32-S2.
+Entworfen ist der Trimatik-Logger für den "Wemos S2 mini" mit dem ESP32-S2 und ESP32. Die Beschreibung hier bezieht sich auf den "Wemos S2 mini".
 
 Die seriellen 5V-Datensignale A und B werden über Schottky-Dioden und interne Pullups über die UARTs gelesen.
 Der ursprüngliche Aufbau nutzt beide UARTs, um die Daten auf A und B unabhängig voneinander zu erfassen. Da A und B aber nie gleichzeitig Daten übertragen, können beide über Wired-AND auf eine einzige UART geführt werden.
@@ -103,16 +112,21 @@ Der ursprüngliche Aufbau nutzt beide UARTs, um die Daten auf A und B unabhängi
 
 Der Gas-Zählimpuls wird über eine 1N5817 an einen 1k-Pull-Up und eine weitere 1N5817 gegen Masse an GPIO21 geführt.
 
-Beim Wemos S2 mini sind weiterhin diese Ein-/Ausgänge belegt:
+Beim "Wemos S2 mini" sind weiterhin diese Ein-/Ausgänge belegt:
 - GPIO0 ist der seitlich Taster an der Platine (herausstehend)
 - GPIO15 ist die blaue LED auf der Platine
 - GPIO19 ist USB D-
 - GPIO20 ist USB D+
 
-## Software
-Entwickelt ist der Trimatik-Logger auf Arduino 1.8.12 mit der ESP32-Bibliothek v2.0.9 (ESP-IDF v4.4.4). Für das "Wemos S2 mini" wird in der Arduino-IDE "LOLIN S2 MINI" gewählt. Der Code ist auch für das ESP32-CAM-Modul mit PSRAM geeignet.
+![einfache Verdrahtung des Wemos S2 mini, Oberseite](/images/Wemos_oben.jpg)
+![einfache Verdrahtung des Wemos S2 mini, Unterseite](/images/Wemos_unten.jpg)
 
-Auf meinem "Wemos S2 mini" befindet sich ein ESP32-S2FH32 ohne PSRAM. Ist zusätzlich PSRAM vorhanden, kann dieser als größerer Logging-Speicher oder für weitere Funktionen eingesetzt werden, z.B. EMail-Versand oder verbesserte Server-Funktionen.
+## Software
+Entwickelt ist der Trimatik-Logger auf Arduino 1.8.12 mit der ESP32-Bibliothek v2.0.9 (ESP-IDF v4.4.4) für
+- "Wemos S2 mini" mit ESP32-S2: Arduino-IDE-Board "LOLIN S2 MINI"
+- "ESP32 Dev Kit" oder "ESP32-CAM" mit ESP32: Arduino-IDE-Board "ESP32 Dev Module"
+
+Auf meinem "Wemos S2 mini" befindet sich ein "ESP32-S2F H4" ohne PSRAM. Ist zusätzlich PSRAM vorhanden, kann dieser als größerer Logging-Speicher oder für weitere Funktionen eingesetzt werden, z.B. EMail-Versand. PSRAM ist z.B. auf "ESP32-CAM" oder "Wemos S2 mini" mit "ESP32-S2F N4R2" verfügbar.
 
 ### UART
 UART0 und UART1 werden mit 1200baud 8E1 betrieben.
@@ -129,6 +143,7 @@ Im Heizbetrieb lassen sich so knapp 2 Tage, im Sommerbetrieb ca. 2 Wochen Aufzei
 Der Gas-Zählimpuls ist software-entprellt.
 
 ### Web-Interface
+Die Datei "html.h" enthält die HTML-Daten des Web-Interfaces.
 Das Web-Interface bietet:
 - Darstellung und Aufschlüsselung des aktuellen Datenpakets der Trimatik, Gaszählerstands und Pufferzustands (WebSockets)
 - Temperatur-, Leistungs- und Status-Diagramm mit Zoom-/Scroll-Funktion (Binärdaten-Download)
@@ -138,10 +153,16 @@ Das Web-Interface bietet:
 - Abfrage der Messwerte als Binärdaten mit optionaler Angabe des Startzeitpunkts "/messwerte.bin?since=xxx"
 - OTA-Update
 
+Als Beispiel habe ich ein weiteres Web-Interface mit vereinfachter Ansicht und Liste der Zählerstände zu den Programm-Umschaltzeitpunkten unter "html_simple.h" beigefügt.
+Die Web-Interface-Datei funktioniert auch wenn sie lokal abgespeichert ist, wenn im Javascript die Variable "gateway" auf "trimatik" geändert wird.
+Möglich ist dies da CORS erlaubt wird (Header "Access-Control-Allow-Origin: *").
+
+Auch der Zugriff durch eine Firewall hindurch ist möglich, z.B. mit einer FritzBox mit Port-Freigabe/-Umleitung und DynDNS-Abieter bzw. myFritz-Konto. "gateway" muss dann z.B. auf "abcdefghij.myfritz.net:12345" angepasst werden.
+
 ### Weitere Features
 - Reset- und Update-fester Speicher der Logger-Daten mit Reset-Zähler
 - Uhrzeit NTP-synchronisiert mit Rückwärtskorrektur bei verspäteter NTP-Verfügbarkeit
-- CORS ist deaktiviert, um eine einfache Entwicklung von lokalen Web-Interfaces zu ermöglichen
+- CORS ist offen, um eine einfache Entwicklung von lokalen Web-Interfaces zu ermöglichen
 - WiFi-Mode kann geändert werden (g/n)
 - WiFi-Scan "/wifiscan.txt"
 - Kennlinien-Parameter-Abfrage "/param.json"
@@ -156,9 +177,6 @@ Das Web-Interface bietet:
 - DYNAMIC_LOGMEM: Der Ringpuffer wird nicht statisch sondern dynamisch allokiert - wird für PSRAM benötigt
 - USE_PSRAM: allokiert den Ringpuffer im PSRAM falls vorhanden
 - LOGALL: Vorlauftemperatur, 0x26 und 0x34 werden ebenfalls aufgezeichnet und per CSV geliefert
-
-### Verwendung
-ssid und password müssen an das eigene WiFi-Netz angepasst werden. Die Zugangsdaten sind in der wifikey.h hinterlegt.
 
 ## Anmerkungen
 Die Kennlinienparameter dienen ausschließlich der Berechnung der Soll-Vorlauftemperatur. Sie werden nicht von der Trimatik gelesen und es ist nicht möglich die Regelung damit zu beeinflussen. Insofern hat der Einstellregler für die Wassertemperatur keine Funktion, außer einer Merkhilfe, welche die Einstellung die Trimatik hat.
