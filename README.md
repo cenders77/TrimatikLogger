@@ -13,7 +13,7 @@ Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näheru
   $$Vorlauftemperatur = \left( RT + Niveau \right) - Neigung \cdot \left(  1,7 \cdot \left(  AT-RT \right) + 0,018 \cdot \left( AT-RT \right) ^2 \right) $$
   * RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
   * AT = Außentemperatur
-- aktuelles Datenpaket der Regelung
+- aktuelles Datenpaket und Messwerte der Regelung
 
 Über Pinch-Zoom bzw. Scrollrad kann die Zeitachse des Diagramms gezoomt werden.
 
@@ -62,13 +62,13 @@ Ca. alle 1,7s findet ein Datenaustausch statt. Die seriellen Daten werden in 8 B
 
 Jeder Datenaustausch wird durch mind. 22ms Low und 1,66ms High (2 Bitzeiten) auf 'A' eingeleitet, was als Break-Condition interpretiert werden kann. Danach folgen die 15 Datenbytes eines Telegramms und eine Pause von 1,47s.
 ![Beginn eines Telegramms](/images/AB-Telegramm.png)
-- Die Regelbox sendet zwei Frames in einem Abstand von ca. 2 Bitzeiten. 
-- Die Schaltuhr antwortet nach ca. 0,3 Bitzeiten.
-- Die Regelbox macht zwischen den Byte-Tripel eine Pause von ca. 15 Bitzeiten.
-- Die Regelbox beginnt alle ca. 1,695s diesen Datenaustausch.
-- Nach 13 Telegrammen wird der Break auf die Dauer eines Telegrammintervalls ausgedehnt und währenddessen auf dem Zweidrahtbus eine Nachricht gesendet.
+- die Regelbox sendet zwei Frames in einem Abstand von ca. 2 Bitzeiten
+- die Schaltuhr antwortet ca. 0,3 Bitzeiten nach dem Stop-Bit
+- die Regelbox macht zwischen den Byte-Tripel (Elementen) eine Pause von ca. 15 Bitzeiten
+- die Regelbox beginnt alle ca. 1,695s diesen Datenaustausch
+- nach 13 Telegrammen wird der Break auf die Dauer eines Telegrammintervalls ausgedehnt (1,72s) und währenddessen auf dem Zweidrahtbus (Stecker 58) eine Nachricht gesendet
 
-Die Daten des Telegramms interpretiere ich folgendermaßen:
+Die 15 Bytes eines Telegramms interpretiere ich als Paket aus 5 Elementen zu je 3 Bytes:
 |Kanal B| A | Bedeutung |
 |-----|--|-----------|
 |0F 7F|  | Abfrage "Datumswechsel" |
@@ -77,9 +77,9 @@ Die Daten des Telegramms interpretiere ich folgendermaßen:
 |     |00| Antwort der Schaltuhr: 0x11 TagHK1, 0x22 TagHK2, 0x44 WW, 0x88 Zirkulation |
 |1F 2F 00| | Status der Regelung: 0=fehlerfrei, sonst 3F 2F xy |
 |1F 3A 3C| | Anzeigewert; normalerweise Kesseltemperatur |
-|1F 31 10| | wechselnder Inhalt: z.B. Außentemperatur |
+|1F 31 10| | wechselnder Parameter: z.B. Außentemperatur |
 
-Das letzte Datentripel wechselt zwischen folgenden Parametern:
+Das letzte Element wechselt zwischen folgenden Parametern:
 |Kanal B| Bedeutung |
 |-------|-----------|
 |1F 31 xx|	Außentemperatur; xx = 4&middot;Außentemperatur [°C], vorzeichenbehaftet |
@@ -91,7 +91,12 @@ Das letzte Datentripel wechselt zwischen folgenden Parametern:
 |1F 25 xx|	Relaiszustände; bitcodiert:<br>80=HKB, 40=HKA, 20=MischerAuf, 10=MischerZu, 08=WW-Zirkul, 04=WW-Pumpe, 01=Brenner |
 |1F 26 13|	Bedeutung unbekannt; bei mir immer 0x13 |
 
-Nach jeweils 13 dieser Datensequenzen wird der einleitende Low-Pegel von 22ms auf 1,72s verlängert. In diesem Zeitraum wird auf Stecker 58 ein Datentelegramm gesendet.
+Die Übertragung eines Elements wird von der Regelbox initiiert. Der Aufbau eines Elements kann folgendermaßen interpretiert werden:
+- das erste Byte ist die Art des Elements: 0x0F ist die Abfrage eines Werts der Schaltuhr, 0x1F ist die Mitteilung eines Werts der Regelbox, 0x3F ist eine Störungsmeldung
+- das zweite Byte beschreibt um welchen Parameter es sich handelt
+- das dritte Byte ist der Wert des Parameters
+
+Eine sehr ausführliche und umfassende Beschreibung von Funktionen und Bauteilen der Trimatik hat Christian Vieth ausgearbeitet: http://cvieth.bplaced.net/heizung_viessmann_trimatik.html
 
 ## Stromversorgung für den Trimatik-Logger
 In der Schaltuhr steht nur eine durch den Vorwiderstand R402 in der Regelbox begrenzte Spannung zur Verfügung. Wird dieser Vorwiderstand in der Regelbox überbrückt, stehen die 12V des darin befindlichen 7812T zur Verfügung, und können dann mittels Schaltregler den Logger versorgen.
