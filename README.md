@@ -14,6 +14,7 @@ Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näheru
   * RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
   * AT = Außentemperatur
 - aktuelles Datenpaket der Regelung
+
 Über Pinch-Zoom bzw. Scrollrad kann die Zeitachse des Diagramms gezoomt werden.
 
 ![Lengende zum Web-Interface](/images/WebIF_Legende.png)
@@ -25,6 +26,8 @@ Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näheru
 4. Für den echten Betrieb:
    - Hardwareanbindung an die Trimatik herstellen (siehe [Hardware](#hardware))
    - in "TrimatikLogger.ino" die Zeile "#define BEISPIEL" auskommentieren um die Beispieldaten zu entfernen
+
+Wer nur das Web-Interface testen möchte (ohne den Logger als Server) kann dies mit den Dateien im "demo"-Verzeichnis tun.
 
 ## Trimatik-Kompatibilität
 Entworfen ist das Projekt für die Viessmann Trimatik-MC von 1/1995, die noch keine der im OpenV-Wiki beschriebenen Datenanbindungen hat. Sie besteht aus:
@@ -85,7 +88,7 @@ Das letzte Datentripel wechselt zwischen folgenden Parametern:
 |1F 34 FF|	Bedeutung unbekannt, evtl. digit. Raumtemperatursensor; bei mir immer 0xFF |
 |1F 35 xx|	Warmwasserspeichertemperatur; xx = 2&middot;Wassertemperatur [°C] |
 |1F 3A xx|	Anzeigewert; xx = 2&middot;Kesseltemperatur [°C] |
-|1F 25 xx|	Relaiszustände; bitcodiert: 80=HKB, 40=HKA, 20=MischerAuf, 10=MischerZu, 08=WW-Zirkul, 04=WW-Pumpe, 01=Brenner |
+|1F 25 xx|	Relaiszustände; bitcodiert:<br>80=HKB, 40=HKA, 20=MischerAuf, 10=MischerZu, 08=WW-Zirkul, 04=WW-Pumpe, 01=Brenner |
 |1F 26 13|	Bedeutung unbekannt; bei mir immer 0x13 |
 
 Nach jeweils 13 dieser Datensequenzen wird der einleitende Low-Pegel von 22ms auf 1,72s verlängert. In diesem Zeitraum wird auf Stecker 58 ein Datentelegramm gesendet.
@@ -183,4 +186,4 @@ Die Kennlinienparameter dienen ausschließlich der Berechnung der Soll-Vorlaufte
 
 In der Statusnachricht über WebSocket werden alle bekannten Werte übermittelt. Im Puffer werden nur die im WebInterface verwendeteten Werte abgelegt. Um alle Werte aufzuzeichnen kann LOGALL verwendet werden.
 
-Damit die Daten ein Firmware-Update überleben, muss die Adresse des Speicherblocks 'logBuf' in beiden Firmwares gleich sein. Die Adresse der aktuellen Firmware lässt sich über http://trimatik/info.txt abfragen, die der neuen Firmware steht in dem MAP-File im %TEMP%\arduino-cache
+Damit die Daten ein Firmware-Update überleben, muss die Adresse des Speicherblocks 'logBuf' in beiden Firmwares gleich sein. Die Adresse der aktuellen Firmware lässt sich über http://trimatik/info.txt abfragen, die der neuen Firmware steht in dem MAP-File im %TEMP%\arduino_build_xxxxxx
