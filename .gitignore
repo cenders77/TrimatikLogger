@@ -1,0 +1,16 @@
+# Geheimnisse
+wifikey.h
+
+# Arduino
+*.tmp
+*.bak
+*.log
+
+# Arduino IDE build files
+build/
+*.elf
+*.hex
+
+# OS
+.DS_Store
+Thumbs.db
