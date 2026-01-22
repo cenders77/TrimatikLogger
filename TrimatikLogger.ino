@@ -107,6 +107,9 @@
 
 */
 
+// Laden von Beispieldaten:
+#define BEISPIEL  // der Puffer wird zu Demozwecken mit Beispieldaten gefüllt; für den richtigen Betrieb diese Zeile auskommentieren
+
 // Baudrate der Trimatik-Daten
 #define BAUDRATE 1200
 
@@ -206,8 +209,9 @@
 
 #include "logger.h"
 #include "html.h"
-#include "example.h"
-
+#ifdef BEISPIEL
+  #include "example.h"
+#endif
 #ifdef NODEBUG
   #define DBUG(x)
 #else
