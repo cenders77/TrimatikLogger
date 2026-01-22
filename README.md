@@ -14,6 +14,7 @@ Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näheru
   * RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
   * AT = Außentemperatur
 - aktuelles Datenpaket der Regelung
+Über Pinch-Zoom bzw. Scrollrad kann die Zeitachse des Diagramms gezoomt werden.
 
 ![Lengende zum Web-Interface](/images/WebIF_Legende.png)
 
@@ -142,6 +143,7 @@ Im Heizbetrieb lassen sich so knapp 2 Tage, im Sommerbetrieb ca. 2 Wochen Aufzei
 Der Gas-Zählimpuls ist software-entprellt.
 
 ### Web-Interface
+Die Datei "html.h" enthält die HTML-Daten des Web-Interfaces.
 Das Web-Interface bietet:
 - Darstellung und Aufschlüsselung des aktuellen Datenpakets der Trimatik, Gaszählerstands und Pufferzustands (WebSockets)
 - Temperatur-, Leistungs- und Status-Diagramm mit Zoom-/Scroll-Funktion (Binärdaten-Download)
@@ -151,10 +153,16 @@ Das Web-Interface bietet:
 - Abfrage der Messwerte als Binärdaten mit optionaler Angabe des Startzeitpunkts "/messwerte.bin?since=xxx"
 - OTA-Update
 
+Als Beispiel habe ich ein weiteres Web-Interface mit vereinfachter Ansicht und Liste der Zählerstände zu den Programm-Umschaltzeitpunkten unter "html_simple.h" beigefügt.
+Die Web-Interface-Datei funktioniert auch wenn sie lokal abgespeichert ist, wenn im Javascript die Variable "gateway" auf "trimatik" geändert wird.
+Möglich ist dies da CORS erlaubt wird (Header "Access-Control-Allow-Origin: *").
+
+Auch der Zugriff durch eine Firewall hindurch ist möglich, z.B. mit einer FritzBox mit Port-Freigabe/-Umleitung und DynDNS-Abieter bzw. myFritz-Konto. "gateway" muss dann z.B. auf "abcdefghij.myfritz.net:12345" angepasst werden.
+
 ### Weitere Features
 - Reset- und Update-fester Speicher der Logger-Daten mit Reset-Zähler
 - Uhrzeit NTP-synchronisiert mit Rückwärtskorrektur bei verspäteter NTP-Verfügbarkeit
-- CORS ist deaktiviert, um eine einfache Entwicklung von lokalen Web-Interfaces zu ermöglichen
+- CORS ist offen, um eine einfache Entwicklung von lokalen Web-Interfaces zu ermöglichen
 - WiFi-Mode kann geändert werden (g/n)
 - WiFi-Scan "/wifiscan.txt"
 - Kennlinien-Parameter-Abfrage "/param.json"
