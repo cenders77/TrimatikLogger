@@ -73,10 +73,10 @@ Die 15 Bytes eines Telegramms interpretiere ich als Paket aus 5 Elementen zu je 
 |-----|--|-----------|
 |0F 7F|  | Abfrage "Datumswechsel" |
 |     |84| Antwort der Schaltuhr: zwischen 0:00 und 0:01 0xA4, sonst 0x84 |
-|0F 45|	 | Abfrage "aktives Schaltkanäle" |
+|0F 45|	 | Abfrage "aktive Schaltuhrkanäle" |
 |     |00| Antwort der Schaltuhr: 0x11 TagHK1, 0x22 TagHK2, 0x44 WW, 0x88 Zirkulation |
-|1F 2F 00| | Status der Regelung: 0=fehlerfrei, sonst 3F 2F xy |
-|1F 3A 3C| | Anzeigewert; normalerweise Kesseltemperatur |
+|1F 2F 00| | Status der Regelung: 0=fehlerfrei,<br>sonst 3F 2F xy und Anzeige von ↯:x:y auf dem Display der Schaltuhr |
+|1F 3A 3C| | Anzeigewert; normalerweise Kesseltemperatur,<br>bei den Testeinstellungen der entsprechende Wert |
 |1F 31 10| | wechselnder Parameter: z.B. Außentemperatur |
 
 Das letzte Element wechselt zwischen folgenden Parametern:
@@ -109,6 +109,7 @@ Ich habe den 5V-Abgriff direkt an den Lötungen des Steckverbinders zur Regelbox
 
 ## Zählimpulse des Gaszählers
 Der Gaszähler "Honeywell BK-G4MT" hat an der letzten Stelle des Zählwerks einen Magneten, mit dem die Hundertstel m³ gezählt werden können. In der Mulde unterhalb des Zählwerks kann ein entsprechender Reed-Kontakt befestigt werden. Vorgesehen sind z.B. Typ IN-Z61 oder IN-Z62. Ich habe einen Standard-Reed-Kontakt (Littlefuse 59140) bearbeitet und in die Mulde geklemmt. Der Reedkontakt ist bei Zählerständen x,xx1 m³ bis x,xx9 m³ geöffnet.
+![Reed-Kontakt am Honeywell-Gaszähler](images/Gas_Reedkontakt.jpg)
 
 ## Hardware
 Entworfen ist der Trimatik-Logger für den "Wemos S2 mini" mit dem ESP32-S2 und ESP32. Die Beschreibung hier bezieht sich auf den "Wemos S2 mini".
