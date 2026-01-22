@@ -869,35 +869,35 @@ function loadChartBIN()
               {
                 case 0x01: // 1 : Gas
                   Gas ++;
-                if(!skip) dataGas.push([ts, Gas/100]);
+                  if(!skip) dataGas.push([ts, Gas/100]);
                 break;
                   case 0x31: // 2 : Aussen
                   Aussen=dv.getInt8(idx)/4;
-                if(!skip) dataAussen.push([ts, Aussen]);
+                  if(!skip) dataAussen.push([ts, Aussen]);
                 break;
                   case 0x3a: // 3 : Kessel
                   Kessel=dv.getUint8(idx)/2;
-                if(!skip) dataKessel.push([ts, Kessel]);
+                  if(!skip) dataKessel.push([ts, Kessel]);
                 break;
                   case 0x35: // 4 : Wasser
                   Wasser=dv.getUint8(idx)/2;
-                if(!skip) dataWasser.push([ts, Wasser]);
+                  if(!skip) dataWasser.push([ts, Wasser]);
                 break;
                   case 0x25: // 5 : Relais
                   Relais=dv.getUint8(idx);
-                if(!skip) dataRelais.push([ts, Relais]);
+                  if(!skip) dataRelais.push([ts, Relais]);
                 break;
                   case 0x45: // 6 : Programm
                   Programm=dv.getUint8(idx);
-                if(!skip) dataProgramm.push([ts, Programm]);
+                  if(!skip) dataProgramm.push([ts, Programm]);
                 break;
                   case 0x2f: // 8 : Status
                   Status=dv.getUint8(idx);
-                if(!skip) dataStatus.push([ts, Status+Tag]);
+                  if(!skip) dataStatus.push([ts, Status+Tag]);
                 break;
                   case 0x7f: // 11 : Tag
                   Tag=dv.getUint8(idx);
-                if(!skip) dataStatus.push([ts, Status+Tag]);
+                  if(!skip) dataStatus.push([ts, Status+Tag]);
                 break;
               }
               idx++;
