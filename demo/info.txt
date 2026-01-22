@@ -1,0 +1,24 @@
+getXtalFrequencyMhz() = 40 MHz
+getCpuFrequencyMhz() = 240 MHz
+getApbFrequency() = 80000000 Hz = 80 MHz
+ESP32 Chip model = ESP32-S2 Rev 0
+ESP.getCpuFreqMHz() = 240 MHz
+ESP.getSdkVersion() = v4.4.4
+ESP.getFlashChipSize() = 4194304
+ESP.getFlashChipSpeed() = 80000000
+ESP.getHeapSize() = 141296
+esp_get_minimum_free_heap_size() = 5984
+heap_caps_get_free_size(8BIT INTERNAL) = 31708
+heap_caps_get_largest_free_block(8BIT INTERNAL) = 14324
+ESP.getFreeSketchSpace() = 1310720
+ESP.getSketchSize() = 854224
+ESP.getChipCores() = 1
+Reset reason CPU0: TG0WDT_SYS_RESET Timer Group0 Watch dog reset digital core
+Reset# 5 on Tue Dec 30 19:53:44 2025
+MAC: 84:F7:03:FC:64:42
+SNTP: 192.168.178.1
+NTP sync# 24 on Thu Jan 22 19:53:50 2026
+now: Thu Jan 22 22:26:36 2026
+Chip-Temperatur: 39.5°C
+psramFound() = 0
+logMem(52832) = 0x3ffc7ba0

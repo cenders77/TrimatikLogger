@@ -1,0 +1,11 @@
+      ts            Gas     AT    KT  KT2   WW  Rl Pr St Ck VT 26 34
+Start 1768965557  6225.14  -3.25 44.0 55.5 27.0 d1 00 05 84 ff 13 ff
+Log   1769117217  6246.52  -4.75 55.5 55.5 30.0 d0 00 05 84 ff 13 ff
+Ist   1769117217  6246.52  -4.75 55.5 55.5 30.0 d0 00 05 84 ff 13 ff
+
+      ts       Gas      Rl St AT WW KT Pr Ck 26 VT K2 34
+Start 697045b5 00097fb2 d1 05 f3 36 58 00 84 13 ff 6f ff 00
+Log   69729621 0009880c d0 05 ed 3c 6f 00 84 13 ff 6f ff 00
+Ist   69729621 0009880c d0 05 ed 3c 6f 00 84 13 ff 6f ff 00
+
+Log consistent: true
