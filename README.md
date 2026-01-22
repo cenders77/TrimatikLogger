@@ -1,16 +1,20 @@
 # Datenlogger mit Web-Server für Viessmann Trimatik-MC
-Zur Überwachung der Arbeitsweise der Heizungsregelung Trimatik-MC werden die Zustände von Ein- und Ausgängen aus der Kommunikation zwischen Regelbox und Schaltuhr aufgezeichnet. Der Gasverbrauch durch einen Reed-Kontakt am Gaszähler erfasst. Über das Web-Interface werden die Daten grafisch dargestellt und können als CSV heruntergeladen werden.
+Zur Überwachung der Arbeitsweise der Heizungsregelung "Trimatik-MC" werden die Zustände von Ein- und Ausgängen aus der Kommunikation zwischen Regelbox und Schaltuhr aufgezeichnet. Der Gasverbrauch wird durch einen Reed-Kontakt am Gaszähler erfasst. Der Logger verbindet sich mit einem WLAN. Über sein Web-Interface http://trimatik können die Daten grafisch dargestellt werden. Die Aufzeichnung kann als CSV oder JSON heruntergeladen werden.
 
 ## Beispiel
-Neben den Temperaturverläufen von Kesselwasser, Warmwasser und Außentemperatur, sind die Schaltzustände der Pumpen, des Brenners und des Programms dargestellt. Die mittlere Heizleistung wird aus dem Gasverbrauch über ein Brennerintervall dargestellt.
-Aus Programm, Außentemperatur und den eingestellten Kennlinienparametern wird die Soll-Vorlauftemperatur berechnet und dargestellt.
-Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näherung abgeleitet:
-$$Vorlauftemperatur = \left( RT + Niveau \right) - Neigung \cdot \left(  1,7 \cdot \left(  AT-RT \right) + 0,018 \cdot \left( AT-RT \right) ^2 \right) $$
-- RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
-- AT = Außentemperatur
-
 ![Beispielanzeige des Web-Interfaces](/images/WebIF.png)
-Bedeutung der Kurven
+
+Auf dem Web-Interface sind dargestellt:
+- Temperaturverläufe von Kesselwasser, Warmwasser und Außentemperatur
+- Schaltzustände der Pumpen, des Brenners und der Schaltuhr
+- mittlere Heizleistung, berechnet aus dem Gasverbrauch über ein Brennerintervall
+- Soll-Vorlauftemperatur, berechnet aus Programm, Außentemperatur und den eingestellten Kennlinienparametern.
+Aus dem Heizkennliniendiagramm der Trimatik-Dokumentation habe ich diese Näherung abgeleitet:
+  $$Vorlauftemperatur = \left( RT + Niveau \right) - Neigung \cdot \left(  1,7 \cdot \left(  AT-RT \right) + 0,018 \cdot \left( AT-RT \right) ^2 \right) $$
+  * RT = Soll-Raumtemperatur: Normalbetrieb = 20°C+Tagkorrektur (Sonne); reduzierter Betrieb = 14°C+Nachtkorrektur (Mond)
+  * AT = Außentemperatur
+- aktuelles Datenpaket der Regelung
+
 ![Lengende zum Web-Interface](/images/WebIF_Legende.png)
 
 ## Trimatik-Kompatibilität
