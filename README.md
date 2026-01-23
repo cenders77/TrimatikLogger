@@ -109,7 +109,8 @@ Ich habe den 5V-Abgriff direkt an den Lötungen des Steckverbinders zur Regelbox
 
 ## Zählimpulse des Gaszählers
 Der Gaszähler "Honeywell BK-G4MT" hat an der letzten Stelle des Zählwerks einen Magneten, mit dem die Hundertstel m³ gezählt werden können. In der Mulde unterhalb des Zählwerks kann ein entsprechender Reed-Kontakt befestigt werden. Vorgesehen sind z.B. Typ IN-Z61 oder IN-Z62. Ich habe einen Standard-Reed-Kontakt (Littlefuse 59140) bearbeitet und in die Mulde geklemmt. Der Reedkontakt ist bei Zählerständen x,xx1 m³ bis x,xx9 m³ geöffnet.
-![Reed-Kontakt am Honeywell-Gaszähler](images/Gas_Reedkontakt.jpg)
+
+![Reed-Kontakt am Honeywell-Gaszähler](/images/Gas_Reedkontakt.jpg)
 
 ## Hardware
 Entworfen ist der Trimatik-Logger für den "Wemos S2 mini" mit dem ESP32-S2 und ESP32. Die Beschreibung hier bezieht sich auf den "Wemos S2 mini".
@@ -119,16 +120,17 @@ Der ursprüngliche Aufbau nutzt beide UARTs, um die Daten auf A und B unabhängi
 - 'A' ist über eine 1N5817 an GPIO16 angeschlossen und an 'U0RXD' mit internem Pull-Up geführt.
 - 'B' ist über eine 1N5817 an GPIO18 angeschlossen und an 'U1RXD' mit internem Pull-Up geführt.
 
-Der Gas-Zählimpuls wird über eine 1N5817 an einen 1k-Pull-Up und eine weitere 1N5817 gegen Masse an GPIO21 geführt.
+Der Gaszähler-Reed-Kontakt ist über eine 1N5817 und einen 1k-Pull-Up an GPIO21 geführt. Eine weitere 1N5817 ist antiparallel zum Reed-Kontakt gegen Masse geschaltet.
 
 Beim "Wemos S2 mini" sind weiterhin diese Ein-/Ausgänge belegt:
-- GPIO0 ist der seitlich Taster an der Platine (herausstehend)
+- GPIO0 ist der seitliche Taster an der Platine (herausstehend)
 - GPIO15 ist die blaue LED auf der Platine
 - GPIO19 ist USB D-
 - GPIO20 ist USB D+
 
-![einfache Verdrahtung des Wemos S2 mini, Oberseite](/images/Wemos_oben.jpg)
+![Verdrahtung des Wemos S2 mini, Schaltung](/images/Wemos-Verdrahtung.png)
 ![einfache Verdrahtung des Wemos S2 mini, Unterseite](/images/Wemos_unten.jpg)
+![einfache Verdrahtung des Wemos S2 mini, Oberseite](/images/Wemos_oben.jpg)
 
 ## Software
 Entwickelt ist der Trimatik-Logger auf Arduino 1.8.12 mit der ESP32-Bibliothek v2.0.9 (ESP-IDF v4.4.4) für
