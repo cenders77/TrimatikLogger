@@ -129,8 +129,15 @@ Beim "Wemos S2 mini" sind weiterhin diese Ein-/Ausgänge belegt:
 - GPIO20 ist USB D+
 
 ![Verdrahtung des Wemos S2 mini, Schaltung](/images/Wemos-Verdrahtung.png)
+
 ![einfache Verdrahtung des Wemos S2 mini, Unterseite](/images/Wemos_unten.jpg)
+
 ![einfache Verdrahtung des Wemos S2 mini, Oberseite](/images/Wemos_oben.jpg)
+
+Schaltung mit Wired-AND an der UART1:
+
+![Verdrahtung des Wemos S2 mini mit Wired-AND, Schaltung](/images/Wemos-Verdrahtung_singleUART.png)
+
 
 ## Software
 Entwickelt ist der Trimatik-Logger auf Arduino 1.8.12 mit der ESP32-Bibliothek v2.0.9 (ESP-IDF v4.4.4) für
